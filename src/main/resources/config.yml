@@ -1,0 +1,56 @@
+# PlotsGUI - a plot menu that works across the whole network, even though PlotSquared itself only
+# runs on one server (plotsquared_server-name below). Install the same jar everywhere:
+#  - On plotsquared_server-name, it also talks to PlotSquared's own API and keeps the cache below fresh.
+#  - Everywhere else, it only shows the GUI, reading plot data from the shared MySQL cache.
+
+# The PlotSquared server. Players are transferred here (via SimpleCloud) when they join or create a plot.
+plotsquared_server-name: plotwelt
+
+# Override if this server's runtime id differs from its SimpleCloud service id/name. Leave empty to
+# auto-detect from SIMPLECLOUD_SERVER_NAME / SIMPLECLOUD_SERVER_ID / SIMPLECLOUD_SERVICE_NAME /
+# SIMPLECLOUD_SERVICE_ID / CLOUDNET_SERVICE_ID / CLOUDNET_SERVICE_NAME, falling back to the hostname.
+local-server-name: ""
+
+# Shared cache of plot data (owner, trusted, members, created date, ...), written only by the instance
+# running on plotsquared_server-name and read by every instance to render the GUI.
+database:
+  enable: true
+  host: 10.8.0.1
+  port: 3306
+  database: "pgui"
+  username: "pgui"
+  password: ""
+  pool-size: 6
+  timeout-ms: 3000
+  # All tables start with this. Change it if several plugins share one database.
+  table-prefix: "plotsgui_"
+
+# Used to trigger actions (join a plot, auto-create a plot, ...) on plotsquared_server-name when a
+# player clicks a button on a different server, and to hand the player a pending action across the
+# transfer. Same Redis instance CrossClipboard uses is fine; key-prefix keeps the keyspaces separate.
+redis:
+  # Either set url (as printed by Coolify, e.g. redis://default:PASSWORD@host:6379/0, or rediss:// for TLS) ...
+  url: ""
+  # ... or the individual fields below. If url is set, they are ignored.
+  host: 10.8.0.1
+  port: 6310
+  username: "default"
+  password: ""
+  database: 0
+  ssl: false
+  # Milliseconds to wait for Redis before giving up on a single request.
+  timeout-ms: 3000
+  pool-size: 6
+  key-prefix: plotsgui
+  # Seconds a pending action (from a click on another server) waits for the player to join
+  # plotsquared_server-name before it is dropped.
+  pending-action-ttl-seconds: 120
+
+# Controller API used to transfer a player to plotsquared_server-name, same one WorldsGUI uses.
+simplecloud:
+  controller-url: "https://controller.simplecloud.app"
+  network-id: ""
+  network-secret: ""
+
+# Timezone used to format %plot_created% in the GUI.
+display-timezone: "Europe/Berlin"
