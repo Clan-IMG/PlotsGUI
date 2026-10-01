@@ -1,0 +1,17 @@
+name: PlotsGUI
+description: $description
+prefix: [ PlotsGUI ]
+version: '${version}'
+
+main: net.clanimg.plotsGUI.PlotsGUI
+api-version: '1.21.11'
+load: POSTWORLD
+softdepend: [ PlotSquared, simplecloud-api ]
+
+commands:
+  plots:
+    description: Öffnet das Plot-Menü
+    aliases: [ plotmenu, plotsgui ]
+
+authors: [ WrobelXXL ]
+website: https://clan-img.net

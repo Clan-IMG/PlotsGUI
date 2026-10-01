@@ -1,0 +1,181 @@
+# Beispiel konfiguration für das GUI-Menü von PlotGUI.
+
+# plotgui:                                  der name des Menü für das System (*1)
+#   titel: "&8Plot Menü"                    der Titel des GUI ingame
+#   size: 27                                mögliche größen sind mindestens 27, 36, 45, 54
+
+#   slots:
+#     slot-X                                X die Nummer vom Plo
+#     slot-range-auto:                      Ein bestimmten Bereich
+#       from: X
+#       to: X
+
+#       name: "&bName"                      Name vom Item im Slot
+
+#       lore:                               Lore also Zeilen unter dem Title oder lore: [] bei keinen loren
+#         - "&cZeile 1."
+#         - "&cZeile 2."
+
+#       material: "BLOCK_NAME"              beliebes Item oder Block name
+
+#       event:
+#         command:                          bei rechts oder links klick, den command reinschreiben. Oder wenn es egal ist einfach command: "/befehl" oder einen anderen befehl der das system versteht was zu tun ist
+#           left_click: ""
+#           right_click: ""
+#         open_gui: "editplot"              hier den gui name eintragen bei bei (*1) definiert wurde
+
+
+plotgui:
+  titel: "&8Plot Menü"
+  # Inventory size in slots (must be a multiple of 9, 9-54).
+  size: 27
+  slots:
+    slot-9:
+      name: ""
+      lore: []
+      material: "GRAY_STAINED_GLASS_PANE"
+      event:
+        command:
+          left_click: ""
+          right_click: ""
+    # Filled automatically with the viewing player's plots, one item per slot in this range, paginated
+    # if they own more plots than fit. %plot_number% etc. are replaced per plot.
+    slot-range-auto:
+      from: 10
+      to: 15
+      name: "&b%plot_number%. Plot"
+      lore:
+        - "&7ID: &b%plot_id%"
+        - "&7Vertraut: &b%plot_trusted%"
+        - "&7Mitglieder: &b%plot_members%"
+        - "&7Erstellt: &b%plot_created%" # beispiel: 01.08.2026 um 13:42
+      material: "GRASS_BLOCK"
+      event:
+        command:
+          # Joins the plot: transfers the player to plotsquared_server-name (config.yml) if needed,
+          # then teleports them onto that plot.
+          left_click: "JOIN_PLOT"
+          right_click: "JOIN_PLOT"
+    slot-16:
+      name: ""
+      lore: []
+      material: "GRAY_STAINED_GLASS_PANE"
+      event:
+        command:
+          left_click: ""
+          right_click: ""
+    slot-17:
+      name: "&bPlot erstellen (Auto)"
+      lore: []
+      material: "ANVIL"
+      event:
+        command:
+          # Creates a plot on plotsquared_server-name (transfers the player there first if needed).
+          left_click: "CREATE_AUTO"
+          right_click: "CREATE_AUTO"
+      # Closes the menu right after this click. Works on any slot, not just this one.
+      close-menu: true
+
+    slot-19:
+      name: "&bZurück"
+      lore: []
+      material: "ARROW"
+      event:
+        command:
+          # Shown only while there is a previous page; scrolls slot-range-auto back.
+          left_click: "PAGE_BACK"
+          right_click: "PAGE_BACK"
+
+    slot-24:
+      name: "&bWeiter"
+      lore: []
+      material: "ARROW"
+      event:
+        command:
+          # Shown only while there are more plots below the current page; scrolls slot-range-auto forward.
+          left_click: "PAGE_NEXT"
+          right_click: "PAGE_NEXT"
+
+editPlot:
+  titel: "&8Plot bearbeiten"
+  size: 27
+  slots:
+    slot-9:
+      name: "&bZurück"
+      lore: []
+      material: "SPRUCE_DOOR"
+      event:
+        command:
+          left_click: ""
+          right_click: ""
+        open_gui: "plotgui"
+      close-menu: false
+
+    slot-10:
+      name: ""
+      lore: []
+      material: "GRAY_STAINED_GLASS_PANE"
+      event:
+        command:
+          left_click: ""
+          right_click: ""
+    slot-11:
+      name: ""
+      lore: []
+      material: "GRAY_STAINED_GLASS_PANE"
+      event:
+        command:
+          left_click: ""
+          right_click: ""
+    slot-12:
+      name: "&bTitle"
+      lore:
+        - "&7Titel ändern vom ausgewählten Plot"
+      material: "NAME_TAG"
+      event:
+        command:
+          left_click: "" # noch ergänzen
+          right_click: ""
+    slot-13:
+      name: "&bFlags"
+      lore:
+        - "&7Flags ändern vom ausgewählten Plot"
+      material: "CREEPER_CHARGE_BANNER_PATTERN"
+      event:
+        command:
+          left_click: "" # noch ergänzen
+          right_click: ""
+    slot-14:
+      name: "&bBiom"
+      lore:
+        - "&7Biom ändern vom ausgewählten Plot"
+      material: "OAK_LEAVES"
+      event:
+        command:
+          left_click: "" # noch ergänzen
+          right_click: ""
+    slot-15:
+      name: ""
+      lore: []
+      material: "GRAY_STAINED_GLASS_PANE"
+      event:
+        command:
+          left_click: ""
+          right_click: ""
+    slot-16:
+      name: "&bBackups"
+      lore:
+        - "&7Verwaltet Backups vom ausgewählten Plot"
+      material: "ENDER_CHEST"
+      event:
+        command:
+          left_click: "" # noch ergänzen
+          right_click: ""
+    slot-17:
+      name: ""
+      lore: []
+      material: "GRAY_STAINED_GLASS_PANE"
+      event:
+        command:
+          left_click: ""
+          right_click: ""
